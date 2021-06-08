@@ -4,15 +4,30 @@ const Form = FormApp.openById('');
 const form_url = '';
 const LINE_TOKEN = '';
 
+
+function sample(){
+  // シートの最後の行を取得する
+  let lastRow = TaskSheet.getLastRow();
+  console.log(lastRow);
+
+  // シートの特定の範囲の情報を取得する
+  let values = TaskSheet.getRange(2, 1, 1, 2).getValues()[0];
+  console.log(values);
+
+}
+
+
+
 function UpdateTasks() {
 
-  // フォームから送られてきた最新情報を読み取る
-  let lastRow = AnswerSheet.getLastRow();
+  // 【コードを書いてみよう1】フォームから送られてきた最新情報を読み取る
+  //
+  //
   let values = AnswerSheet.getRange(lastRow, 2, 1, 4).getValues()[0];// [操作, 新規タスク, 締め切り, 完了タスク]
   console.log('フォームからの最新情報\n' + values);
   
-  // 操作が「タスクの作成」の時
-  if (values[0] == 'タスクの作成'){
+  // 【コードを書いてみよう2】操作が「タスクの作成」の時
+  if ( /*ここに条件をいれる*/ ){
     
     // 最後の行+1行目に、タスク情報を書き込む
     let task_lastRow = TaskSheet.getLastRow();
@@ -26,23 +41,21 @@ function UpdateTasks() {
     data.sort({column: 2, ascending: true});
       
   }
-  // 操作が「タスクの完了」の時
-  if (values[0] == 'タスクの完了'){
+  // 【コードを書いてみよう3】操作が「タスクの完了」の時
+  if (/*ここに条件をいれる*/){
 
     // 削除したいタスク
     let task = values[3];
     console.log('削除したいタスク\n' + task);
 
-    
     if (task == 'タスクはありません'){
       // 削除したいタスクが「タスクはありません」のときは終了
       console.log('「タスクはありません」が送信されました。')
       return
     }else{
-      // タスクの一覧を取得する
-      let task_lastRow = TaskSheet.getLastRow();
-      let task_list = TaskSheet.getRange(2, 1, task_lastRow-1, 1).getValues().flat();
-      console.log('タスクの一覧\n' + task_list);
+      // 【コードを書いてみよう4】タスクの一覧を取得する
+      //
+      //
       
       // タスク一覧から、削除したいタスクを探して、タスク一覧シートから消す行を決める
       let rowForDelete = task_list.indexOf(task) + 2;
@@ -55,8 +68,6 @@ function UpdateTasks() {
         console.log('タスク一覧に、削除したいタスクがありません')
       }
     }
-
-    
   }
 }
 
@@ -69,7 +80,8 @@ function UpdateForm(){
 
   // 選択肢の設定
   try{
-    choices = TaskSheet.getRange(2, 1, task_lastRow-1, 1).getValues().flat();
+    // 【コードを書いてみよう5】タスクを取得する
+    //
   }catch(error){
     choices = ['タスクはありません']
   }
